@@ -33,7 +33,7 @@ def app():
         #keywords = ['Buhari','APC', 'PeterObi','Tinubu','Atiku']
         #it seems the api does not return every tweet containing at least one or every keyword, it returns the only tweets that contains every keyword
         #solution was to use the OR in the keywords string as this is for tweets search only and might give errors in pure python
-        limit = 1
+        limit = 5
 
         tweets = tweepy.Cursor(api.search_tweets, q = keywords,count = 200, tweet_mode = 'extended',geocode='9.0820,8.6753,450mi', until=today).items(limit)
 
@@ -56,7 +56,7 @@ def app():
         db = create_engine(conn_string)
         conn = db.connect()
 
-        df.to_sql('election', con=conn, if_exists='append',
+        df.to_sql('test', con=conn, if_exists='append',
                 index=False)
         conn = psycopg2.connect(database='postgres',
                                     user='myadmin', 
@@ -66,16 +66,17 @@ def app():
         conn.autocommit = True
         cursor = conn.cursor()
         
-        sql1 = '''DELETE FROM election WHERE time_created < current_timestamp - interval '10' day;'''
+        sql1 = '''DELETE FROM test WHERE time_created < current_timestamp - interval '10' day;'''
         cursor.execute(sql1)
 
-        sql2 = '''SELECT COUNT(*) FROM election;'''
+        sql2 = '''SELECT COUNT(*) FROM test;'''
         cursor.execute(sql2)
 
         for i in cursor.fetchall():
             print(i)
         
         # conn.commit()
+        #jdudd
         conn.close()
 
     def flow_caso(schedule=None):
@@ -89,10 +90,9 @@ def app():
 
     schedule = IntervalSchedule(
         start_date = datetime.datetime.now() + datetime.timedelta(seconds = 2),
-        interval = datetime.timedelta(hours=24)
+        interval = datetime.timedelta(minutes=2)
     )
     flow=flow_caso(schedule)
 
     flow.run()
 
-app()
