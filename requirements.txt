@@ -42,7 +42,6 @@ joblib==1.2.0
 jsonpatch==1.32
 jsonpointer==2.3
 kiwisolver==1.4.4
-kubernetes==24.2.0
 langcodes==3.3.0
 locket==1.0.0
 Mako==1.2.3
