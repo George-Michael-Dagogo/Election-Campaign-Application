@@ -20,10 +20,10 @@ def app():
 
     @task(max_retries=3, retry_delay=datetime.timedelta(seconds=5))
     def get_data():
-        api_key = 'QpKVPT24mN1AvSPFEm4YJCZOH'
-        api_key_secret = 'f1pihWUyLAF9u1DvqBlThsZX28a2kK5y7iTvs18Xi78LmczoMl'
-        access_token = '1089703926373462026-HNXfTWpOCcMZ2e2SAi1GMQFdhBVCcC'
-        access_token_secret = 'dqX6ukgS1wd8wzfwDNsgzZExhdN9bloBCRIRLGZGBleN9'
+        api_key = ''
+        api_key_secret = 'l'
+        access_token = 'C'
+        access_token_secret = '9'
         auth = tweepy.OAuthHandler(api_key,api_key_secret)
         auth.set_access_token(access_token,access_token_secret)
 
@@ -33,7 +33,7 @@ def app():
         #keywords = ['Buhari','APC', 'PeterObi','Tinubu','Atiku']
         #it seems the api does not return every tweet containing at least one or every keyword, it returns the only tweets that contains every keyword
         #solution was to use the OR in the keywords string as this is for tweets search only and might give errors in pure python
-        limit = 5
+        limit = 500000
 
         tweets = tweepy.Cursor(api.search_tweets, q = keywords,count = 200, tweet_mode = 'extended',geocode='9.0820,8.6753,450mi', until=today).items(limit)
 
@@ -51,7 +51,7 @@ def app():
         print(df.time_created)
 
 
-        conn_string = 'postgresql://myadmin:electionapi@dubem-postgres.carjb4cqbkhg.us-east-2.rds.amazonaws.com:5432/postgres'
+        conn_string = 'postgres'
         
         db = create_engine(conn_string)
         conn = db.connect()
@@ -59,9 +59,9 @@ def app():
         df.to_sql('test', con=conn, if_exists='append',
                 index=False)
         conn = psycopg2.connect(database='postgres',
-                                    user='myadmin', 
-                                    password='electionapi',
-                                    host='dubem-postgres.carjb4cqbkhg.us-east-2.rds.amazonaws.com'
+                                    user='m', 
+                                    password='i',
+                                    host='.com'
             )
         conn.autocommit = True
         cursor = conn.cursor()
