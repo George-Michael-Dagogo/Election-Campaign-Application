@@ -66,11 +66,20 @@ def app():
         conn.autocommit = True
         cursor = conn.cursor()
         
-        sql1 = '''DELETE FROM test WHERE time_created < current_timestamp - interval '10' day;'''
+        sql1 = '''DELETE FROM election WHERE time_created < current_timestamp - interval '8' day;'''
         cursor.execute(sql1)
 
-        sql2 = '''SELECT COUNT(*) FROM test;'''
+        sql2 = '''DELETE FROM election T1 USING election T2 
+        WHERE T1.ctid < T2.ctid 
+        AND  T1.tweet = T2.tweet;'''
+        #The “CTID” field is a field that exists in every PostgresSQL table, 
+        #it is always unique for each and every record in the table
+        #WHERE  T1.ctid    < T2.ctid       --> delete the "older" ones
+        #AND  T1.tweet    = T2.tweet       --> list columns that define duplicates
         cursor.execute(sql2)
+
+        sql3 = '''SELECT COUNT(*) FROM election;'''
+        cursor.execute(sql3)
 
         for i in cursor.fetchall():
             print(i)
